@@ -306,9 +306,12 @@ void update()
         paddle2_prev_move = g_paddle2_movement.y; 
     }
 
-    g_paddle_position += g_paddle_movement * delta_time;
-    g_paddle2_position += g_paddle2_movement * delta_time;
-    g_pad_position += g_pad_movement * delta_time;
+    if (victorypage == 0)
+    {
+        g_paddle_position += g_paddle_movement * delta_time;
+        g_paddle2_position += g_paddle2_movement * delta_time;
+        g_pad_position += g_pad_movement * delta_time;
+    }
 
     //Reset matrix
     g_paddle_matrix = glm::mat4(1.0f);
@@ -354,7 +357,10 @@ void update()
 
     if (padnum > 1) // two balls
     {
-        g_pad2_position += g_pad2_movement * delta_time;
+        if (victorypage == 0)
+        {
+            g_pad2_position += g_pad2_movement * delta_time;
+        }
         g_pad2_matrix = glm::mat4(1.0f);
         g_pad2_matrix = glm::translate(g_pad2_matrix, INIT_POS_pad2);
         g_pad2_matrix = glm::translate(g_pad2_matrix, g_pad2_position);
@@ -389,7 +395,10 @@ void update()
 
     if (padnum >2) // three balls
     {
-        g_pad3_position += g_pad3_movement * delta_time;
+        if (victorypage == 0)
+        {
+            g_pad3_position += g_pad3_movement * delta_time;
+        }
         g_pad3_matrix = glm::mat4(1.0f);
         g_pad3_matrix = glm::translate(g_pad3_matrix, INIT_POS_pad3);
         g_pad3_matrix = glm::translate(g_pad3_matrix, g_pad3_position);
@@ -435,13 +444,11 @@ void update()
     if (g_pad_position.x >= 4.5f || g_pad2_position.x >= 4.5f || g_pad3_position.x >= 4.5f)
     {
         victorypage = 1;
-        //g_app_status = TERMINATED;
     }
 
     else if (g_pad_position.x <= -4.5f || g_pad2_position.x <= -4.5f || g_pad3_position.x <= -4.5f)
     {
         victorypage = 2;
-        //g_app_status = TERMINATED;
     }
 
     else
